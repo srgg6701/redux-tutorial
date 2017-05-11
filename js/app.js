@@ -13,5 +13,3 @@ var createStore = Redux.createStore;
 const store = createStore(counter);
 // const { createStore } = Redux;
 // import { createStore } from 'redux';
-
-store.dispatch({type:'INCREMENT'});
