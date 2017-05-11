@@ -1,11 +1,12 @@
 window.onload = () => {
-    var contentsBox = document.getElementById('contents');
+    const   contentsBox = document.getElementById('contents'),
+            store = createStore(counter);
     // 
     document.querySelectorAll('#commands a').forEach((link) => {
         link.addEventListener('click', () => {
             // ! this is the window
             console.log('link=>',link);
-            var act = link.id.toUpperCase()
+            let act = link.id.toUpperCase()
             store.dispatch({type: act});
             console.log('act=>', act, 'state=>', store.getState());
         });
