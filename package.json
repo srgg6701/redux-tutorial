@@ -7,7 +7,19 @@
     "url": "https://github.com/happypoulp/redux-tutorial.git"
   },
   "scripts": {
-    "example": "babel-node"
+    "example": "babel-node",
+    "01":"example 01_simple-action-creator.js",
+    "02":"example 02_about-state-and-meet-redux.js",
+    "03":"example 03_simple-reducer.js",
+    "04":"example 04_get-state.js",
+    "05":"example 05_combine-reducers.js",
+    "06":"example 06_dispatch-action.js",
+    "07":"example 07_dispatch-async-action-1.js",
+    "08":"example 08_dispatch-async-action-2.js",
+    "09":"example 09_middleware.js",
+    "10":"example 10_state-subscriber.js",
+    "11":"example 11_Provider-and-connect.js",
+    "12":"example 12_final-words.js"
   },
   "author": "François Bonnefont",
   "license": "ISC",

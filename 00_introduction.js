@@ -1,3 +1,11 @@
+/*  to run it, use command: 
+    ------------------------
+    >node 00_introduction.js
+
+    for other files run a command:
+    ------------------------
+    >npm run <file_name>.js
+*/
 console.info(`Tutorial 0 - introduction.js
 
 Why this tutorial?
