@@ -1,16 +1,10 @@
-const counter = (state = 0, action) => {
-    switch(action.type){
-        case 'INCREMENT':
-            return state + 1;
-        case 'DECREMENT':
-            return state - 1;
-        default:
-            return state;
-    }
-};
-
-var createStore = Redux.createStore;
-
-// const { createStore } = Redux;
-// import { createStore } from 'redux';
-console.log('Redux, createStore=>', {Redux:Redux, createStore:createStore});
+window.onload = function(){
+    console.log('Redux, createStore, store=>', {Redux:Redux, createStore:createStore, store:store});
+    document.querySelectorAll('#commands a').forEach(function(link){
+        link.addEventListener('click', function(){
+            var act = this.id.toUpperCase()
+            store.dispatch({type: act});
+            console.log('act=>', act);
+        });
+    });
+}
