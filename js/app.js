@@ -8,8 +8,3 @@ const counter = (state = 0, action) => {
             return state;
     }
 };
-
-var createStore = Redux.createStore;
-const store = createStore(counter);
-// const { createStore } = Redux;
-// import { createStore } from 'redux';
