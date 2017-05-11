@@ -11,6 +11,7 @@ const counter = (state = 0, action) => {
 
 const createStore = (reducer) => {
     let state;
+    let listeners = [];
 
     const getState = () => state; // returns state
 
