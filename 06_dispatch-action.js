@@ -1,7 +1,7 @@
-// Tutorial 7 - dispatch-action.js
+// Tutorial 06 - dispatch-action.js
 
-// So far we've focused on building our reducer(s) and we've not dispatched any of our own actions.
-// We'll keep the same reducers from our previous tutorial and handle few actions:
+// So far we've focused on building our reducer(s) and we haven't dispatched any of our own actions.
+// We'll keep the same reducers from our previous tutorial and handle a few actions:
 
 var userReducer = function (state = {}, action) {
     console.log('userReducer was called with state', state, 'and action', action)
@@ -39,6 +39,7 @@ var reducer = combineReducers({
 var store_0 = createStore(reducer)
 
 
+console.log("\n", '### It starts here')
 console.log('store_0 state after initialization:', store_0.getState())
 // Output:
 // store_0 state after initialization: { user: {}, items: [] }
@@ -47,8 +48,8 @@ console.log('store_0 state after initialization:', store_0.getState())
 //     "To dispatch an action we need... a dispatch function." Captain obvious
 
 // The dispatch function we're looking for is provided by Redux and will propagate our action
-// to all of our reducers! The dispatch function is accessible through Redux 
-// instance "dispatch" property
+// to all of our reducers! The dispatch function is accessible through the Redux
+// instance property "dispatch"
 
 // To dispatch an action, simply call:
 
@@ -66,8 +67,8 @@ console.log('store_0 state after action AN_ACTION:', store_0.getState())
 // Output: store_0 state after action AN_ACTION: { user: {}, items: [] }
 
 // But, wait a minute! Aren't we supposed to use an action creator to send an action? We could indeed
-// use an actionCreator but since all it does is return an action it would not bring anything more in
-// this case. But for the sake of future coming difficulties let's do it the right way according to
+// use an actionCreator but since all it does is return an action it would not bring anything more to
+// this example. But for the sake of future difficulties let's do it the right way according to
 // flux theory. And let's make this action creator send an action we actually care about:
 
 var setNameActionCreator = function (name) {
@@ -84,15 +85,15 @@ store_0.dispatch(setNameActionCreator('bob'))
 
 console.log('store_0 state after action SET_NAME:', store_0.getState())
 // Output:
-// store_0 state after initialization: { user: { name: 'bob' }, items: [] }
+// store_0 state after action SET_NAME: { user: { name: 'bob' }, items: [] }
 
 // We just handled our first action and it changed the state of our application!
 
-// But this seems too simple and not close enough to real use-case. For example,
-// what about if we'd like do some async work in our action creator before dispatching
+// But this seems too simple and not close enough to a real use-case. For example,
+// what if we'd like do some async work in our action creator before dispatching
 // the action? We'll talk about that in the next tutorial "dispatch-async-action.js"
 
 // So far here is the flow of our application
 // ActionCreator -> Action -> dispatcher -> reducer
 
-// Go to next tutorial: dispatch-async-action-1.js
+// Go to next tutorial: 07_dispatch-async-action-1.js

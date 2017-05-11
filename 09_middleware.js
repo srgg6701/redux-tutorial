@@ -1,27 +1,27 @@
-// Tutorial 10 - middleware.js
+// Tutorial 09 - middleware.js
 
-// We left dispatch-async-action-2.js with a new concept: "middleware". Somehow middleware should help us 
-// to solve async action handling. So what exactly is a middleware?
+// We left dispatch-async-action-2.js with a new concept: "middleware". Somehow middleware should help us
+// to solve async action handling. So what exactly is middleware?
 
-// Generally speaking a middleware is something that comes in between parts A and B of an application to
+// Generally speaking middleware is something that goes between parts A and B of an application to
 // transform what A sends before passing it to B. So instead of having:
 // A -----> B
 // we end up having
 // A ---> middleware 1 ---> middleware 2 ---> middleware 3 --> ... ---> B
 
 // How could middleware help us in the Redux context? Well it seems that the function that we are
-// returning from our async action creator cannot be handled natively by Redux but if we had a 
+// returning from our async action creator cannot be handled natively by Redux but if we had a
 // middleware between our action creator and our reducers, we could transform this function into something
 // that suits Redux:
 
 // action ---> dispatcher ---> middleware 1 ---> middleware 2 ---> reducers
 
-// Our middlewares will be called each time an action (or whatever else, like a function in our 
-// async action creator case) is dispatched and it should be able to help our action creator 
-// to dispatch the real action when he wants to (or do nothing - this is a totally valid and 
+// Our middleware will be called each time an action (or whatever else, like a function in our
+// async action creator case) is dispatched and it should be able to help our action creator
+// dispatch the real action when it wants to (or do nothing - this is a totally valid and
 // sometimes desired behavior).
 
-// In Redux, middlewares are functions that must conform to a very specific signature and follow
+// In Redux, middleware are functions that must conform to a very specific signature and follow
 // a strict structure:
 /*
     var anyMiddleware = function ({ dispatch, getState }) {
@@ -33,18 +33,30 @@
     }
 */
 
-// As you can see above, a middleware in made of 3 nested functions (that will get called sequentially):
-// 1) The first level provide the dispatch function and a getState function (if your 
+// As you can see above, a middleware is made of 3 nested functions (that will get called sequentially):
+// 1) The first level provides the dispatch function and a getState function (if your
 //     middleware or your action creator needs to read data from state) to the 2 other levels
-// 2) The second level provide the next function that will allow you to explicitly hand over
+// 2) The second level provides the next function that will allow you to explicitly hand over
 //     your transformed input to the next middleware or to Redux (so that Redux can finally call all reducers).
-// 3) the third level provide the action received from the previous middleware or from your dispatch
+// 3) the third level provides the action received from the previous middleware or from your dispatch
 //     and can either trigger the next middleware (to let the action continue to flow) or process
 //     the action in any appropriate way.
 
-// The middleware we have to build for our async action creator, is called a thunk middleware and
+// Those of you who are trained to functional programming may have recognized above an opportunity
+// to apply a functional pattern: currying (if you aren't, don't worry, skipping the next 10 lines
+// won't affect your Redux understanding). Using currying, you could simplify the above function like that:
+/*
+    // "curry" may come from any functional programming library (lodash, ramda, etc.)
+    var thunkMiddleware = curry(
+        ({dispatch, getState}, next, action) => (
+            // your middleware-specific code goes here
+        )
+    );
+*/
+
+// The middleware we have to build for our async action creator is called a thunk middleware and
 // its code is provided here: https://github.com/gaearon/redux-thunk.
-// Here is how it looks like (translated to es5 for readability):
+// Here is what it looks like (with function body translated to es5 for readability):
 
 var thunkMiddleware = function ({ dispatch, getState }) {
     // console.log('Enter thunkMiddleware');
@@ -63,11 +75,11 @@ var thunkMiddleware = function ({ dispatch, getState }) {
 // helper functions: applyMiddleware.
 
 // "applyMiddleware" takes all your middlewares as parameters and returns a function to be called
-// with Redux createStore. When this last function is invoked, it will produce "a higher-order 
+// with Redux createStore. When this last function is invoked, it will produce "a higher-order
 // store that applies middleware to a store's dispatch".
-// (from https://github.com/gaearon/redux/blob/v1.0.0-rc/src/utils/applyMiddleware.js)
+// (from https://github.com/reactjs/redux/blob/master/src/applyMiddleware.js)
 
-// Here is how you would integrate a middleware to your Redux store:
+// Here is how you would integrate a middleware into your Redux store:
 
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 
@@ -93,10 +105,10 @@ var reducer = combineReducers({
 const store_0 = finalCreateStore(reducer)
 // Output:
 //     speaker was called with state {} and action { type: '@@redux/INIT' }
-//     speaker was called with state {} and action { type: 'v.b.k.7.s.e.8.9.f.6.r' }
+//     speaker was called with state {} and action { type: '@@redux/PROBE_UNKNOWN_ACTION_s.b.4.z.a.x.a.j.o.r' }
 //     speaker was called with state {} and action { type: '@@redux/INIT' }
 
-// Now that we have our middelware-ready store instance, let's try again to dispatch our async action:
+// Now that we have our middleware-ready store instance, let's try again to dispatch our async action:
 
 var asyncSayActionCreator_1 = function (message) {
     return function (dispatch) {
@@ -126,19 +138,19 @@ store_0.dispatch(asyncSayActionCreator_1('Hi'))
 function logMiddleware ({ dispatch, getState }) {
     return function(next) {
         return function (action) {
-            console.log('logMiddleware action recieved:', action)
+            console.log('logMiddleware action received:', action)
             return next(action)
         }
     }
 }
 
-// Same below for a middleware to discard all actions that goes through (not very useful as is
-// but with a bit of more logic it could selectively discard few actions while passing others
+// Same below for a middleware to discard all actions that are dispatched (not very useful as is
+// but with a bit of more logic it could selectively discard a few actions while passing others
 // to next middleware or Redux):
 function discardMiddleware ({ dispatch, getState }) {
     return function(next) {
         return function (action) {
-            console.log('discardMiddleware action recieved:', action)
+            console.log('discardMiddleware action received:', action)
         }
     }
 }
@@ -149,17 +161,17 @@ function discardMiddleware ({ dispatch, getState }) {
 //     const finalCreateStore = applyMiddleware(discardMiddleware, thunkMiddleware)(createStore)
 // should make your actions never reach your thunkMiddleware and even less your reducers.
 
-// See http://gaearon.github.io/redux/docs/introduction/Ecosystem.html, section Middlewares, to 
+// See http://redux.js.org/docs/introduction/Ecosystem.html#middleware, section Middleware, to
 // see other middleware examples.
 
-// Let's sum up what we've learned to far:
+// Let's sum up what we've learned so far:
 // 1) We know how to write actions and action creators
 // 2) We know how to dispatch our actions
 // 3) We know how to handle custom actions like asynchronous actions thanks to middlewares
 
 // The only missing piece to close the loop of Flux application is to be notified about
-// state updates to be able to react to them (by re-rendering our components for example).
+// state updates in order to react to them (by re-rendering our components for example).
 
 // So how do we subscribe to our Redux store updates?
 
-// Go to next tutorial: state-subscriber.js
+// Go to next tutorial: 10_state-subscriber.js

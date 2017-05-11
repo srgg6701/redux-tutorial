@@ -1,4 +1,4 @@
-// Tutorial 9 - dispatch-async-action-2.js
+// Tutorial 08 - dispatch-async-action-2.js
 
 // Let's try to run the first async action creator that we wrote in dispatch-async-action-1.js.
 
@@ -44,10 +44,10 @@ store_0.dispatch(asyncSayActionCreator_1('Hi'))
 //     ...
 
 // It seems that our function didn't even reach our reducers. But Redux has been kind enough to give us a
-// tips: "Use custom middleware for async actions.". It looks like we're on the right path but what is this 
+// tip: "Use custom middleware for async actions.". It looks like we're on the right path but what is this
 // "middleware" thing?
 
 // Just to reassure you, our action creator asyncSayActionCreator_1 is well-written and will work as expected
-// as soon as we've figured out what is a middleware and how to use it.
+// as soon as we've figured out what middleware is and how to use it.
 
-// Go to next tutorial: middleware.js
+// Go to next tutorial: 09_middleware.js
