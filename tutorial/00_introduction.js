@@ -6,7 +6,8 @@
     ------------------------
     >npm run <file_name>.js
 */
-console.info(`Tutorial 0 - introduction.js
+console.info(`
+Tutorial 0 - introduction.js
 
 Why this tutorial?
 While trying to learn Redux, I realized that I had accumulated incorrect knowledge about flux through
