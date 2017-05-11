@@ -1,4 +1,5 @@
-console.info(`Tutorial 02 - about-state-and-meet-redux.js
+console.info(`
+Tutorial 02 - about-state-and-meet-redux.js
 
 Sometimes the actions that we'll handle in our application will not only inform us
 that something happened but also tell us that data needs to be updated.
@@ -51,6 +52,7 @@ import { createStore } from 'redux'
 
 var store = createStore(() => {})
 
-console.info(`Seems good for now...
+console.info(`
+Seems good for now...
 
 Go to next tutorial: 03_simple-reducer.js`)
